@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mis Permisos{% endblock %}
+
+{% block content %}
+    <h1>Permisos de {{ usuario.nombre }}</h1>
+
+    <hr>
+
+    <h2>Roles asignados</h2>
+    <ul>
+    {% if roles is defined and roles|length > 0 %}
+        {% for key, rol in roles %}
+            <li><strong>{{ key }}. {{ rol }}</strong></li>
+        {% endfor %}
+    {% else %}
+        <li>No tiene roles asignados.</li>
+    {% endif %}
+    </ul>
+
+    <hr>
+
+    <h2>Permisos por Rol</h2>
+    <table class="table table-striped table-bordered w-50">
+        <tr>
+            <th class="bg-primary">Rol</th>
+            <th class="bg-primary">Recurso</th>
+            <th class="bg-primary">Acción</th>
+            <th class="bg-primary">Ámbito</th>
+            <th class="bg-primary">Efecto</th>
+        </tr>
+        {% for key, permisos in permisosPorRol %}
+            <tr>
+                {% for permiso in permisos %}
+                    <td>{{ permiso }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <hr>
+
+    <h2>Permisos Directos</h2>
+    {% if permisosDirectos is not empty %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Recurso</th>
+                <th>Acción</th>
+                <th>Ámbito</th>
+                <th>Efecto</th>
+            </tr>
+            {% for permiso in permisosDirectos %}
+                <tr>
+                    <td>{{ permiso.recurso }}</td>
+                    <td>{{ permiso.accion }}</td>
+                    <td>{{ permiso.ambito }}</td>
+                    <td>{{ permiso.efecto }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Este usuario no tiene permisos directos asignados.</p>
+    {% endif %}
+{% endblock %}
